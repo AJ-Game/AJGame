@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
         else{
             animator.Play("player_idle");
         }
-
+        
         // flip right animations to be left animations when going left
         if(movementInput.x < 0){
             spriteRenderer.flipX = true;
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnFire(){
-        animator.Play("player_attack");
+        animator.SetTrigger("attackTrigger");
         print("fire pressed");
     }
 
