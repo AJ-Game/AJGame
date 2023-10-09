@@ -42,10 +42,11 @@ public class PlayerController : MonoBehaviour
                 success = TryMove(new Vector2(0, movementInput.y));
             }
 
-            animator.Play("player_walk");
+            animator.SetBool("isMoving", success);
+
         } 
         else{
-            animator.Play("player_idle");
+            animator.SetBool("isMoving", false);
         }
         
         // flip right animations to be left animations when going left
@@ -82,7 +83,6 @@ public class PlayerController : MonoBehaviour
 
     void OnFire(){
         animator.SetTrigger("attackTrigger");
-        print("fire pressed");
     }
 
 }
