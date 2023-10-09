@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
             animator.Play("player_walk");
         } 
         else{
-            animator.Play("player_idle");
+            //animator.Play("player_idle");
         }
 
         // flip right animations to be left animations when going left
