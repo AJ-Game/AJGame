@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     string direction = "down";
+    bool canMove;
 
     // Start is called before the first frame update
     void Start(){
@@ -35,33 +36,34 @@ public class PlayerController : MonoBehaviour
     /// Updates ~50 fps. Used instead of Update to better handle physics.
     /// </summary>
     private void FixedUpdate(){
-        // If movement input is not 0, try to move
-        if(movementInput != Vector2.zero){
-            bool success = TryMove(movementInput);
-            animator.SetFloat("moveX", movementInput.x);
-            animator.SetFloat("moveY", movementInput.y);
+        if(canMove){
+            // If movement input is not 0, try to move
+            if(movementInput != Vector2.zero){
+                bool success = TryMove(movementInput);
+                animator.SetFloat("moveX", movementInput.x);
+                animator.SetFloat("moveY", movementInput.y);
 
-            if (!success){
-                success = TryMove(new Vector2(movementInput.x, 0));
+                if (!success){
+                    success = TryMove(new Vector2(movementInput.x, 0));
+                }
+                if (!success){
+                    success = TryMove(new Vector2(0, movementInput.y));
+                }
+
+                animator.SetBool("isMoving", success);
+
+            } 
+            else{
+                animator.SetBool("isMoving", false);
             }
-            if (!success){
-                success = TryMove(new Vector2(0, movementInput.y));
-            }
-
-            animator.SetBool("isMoving", success);
-
-        } 
-        else{
-            animator.SetBool("isMoving", false);
+            
+            // flip right animations to be left animations when going left
+            if(movementInput.x < 0){
+                spriteRenderer.flipX = true;
+            } else if(movementInput.x > 0){
+                spriteRenderer.flipX = false;
+            } 
         }
-        
-        // flip right animations to be left animations when going left
-        if(movementInput.x < 0){
-            spriteRenderer.flipX = true;
-        } else if(movementInput.x > 0){
-            spriteRenderer.flipX = false;
-        } 
-
     }
 
     /// <summary>
@@ -139,6 +141,14 @@ public class PlayerController : MonoBehaviour
         }
 
         return direction;
+    }
+
+    public void LockMovement(){
+        canMove = false;
+    }
+
+    public void UnlockMovement(){
+        canMove = true;
     }
 
 }
