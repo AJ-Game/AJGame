@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public float collisionOffset = 0.02f;
     public ContactFilter2D movementFilter;
+    public SwordAttack swordAttack;
 
 
     Vector2 movementInput;
@@ -107,19 +108,29 @@ public class PlayerController : MonoBehaviour
         string direction = FindPlayerDirection(movementInput);
         // will call the attack action on the direction the player was last facing.
         switch(direction){
-            case "left": 
-                animator.SetTrigger("attackTrigger");
-                break;
-            case "right":
-                animator.SetTrigger("attackTrigger");
-                break;
             case "up":
                 animator.SetTrigger("attackTriggerUp");
+                swordAttack.AttackUp();
                 break;
             case "down":
                 animator.SetTrigger("attackTriggerDown");
+                swordAttack.AttackDown();
                 break;
+            case "left": 
+                animator.SetTrigger("attackTrigger");
+                swordAttack.AttackLeft();
+                break;
+            case "right":
+                animator.SetTrigger("attackTrigger");
+                swordAttack.AttackRight();
+                break;
+
         }
+    }
+
+    public void EndSwordAttack(){
+        UnlockMovement();
+        swordAttack.StopAttack();
     }
 
     /// <summary>
