@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     string direction = "down";
-    bool canMove;
+    bool canMove = true;
 
     // Start is called before the first frame update
     void Start(){
