@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  health: 5
   collisionOffset: 0.05
   movementFilter:
     useTriggers: 0
@@ -287,4 +288,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ffc9fa7a247984b9b1912f9fd56b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordCollider: {fileID: 0}
   damage: 3
