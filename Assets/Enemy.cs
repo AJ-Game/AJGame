@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public float health = 1;
+    public float health = 3;
 
 
     private void Start()
