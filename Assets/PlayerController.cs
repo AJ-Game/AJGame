@@ -5,9 +5,17 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    /// <summary>
+    /// movement speed
+    /// </summary>
     public float moveSpeed = 1f;
-    public float collisionOffset = 0.05f;
+
+    /// <summary>
+    /// "Safety" distance to give spacer in calculate collision
+    /// </summary>
+    public float collisionOffset = 0.02f;
     public ContactFilter2D movementFilter;
+    public SwordAttack swordAttack;
 
 
     Vector2 movementInput;
@@ -15,6 +23,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidbody;
     Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
+    string direction = "down";
+    bool canMove = true;
 
     // Start is called before the first frame update
     void Start(){
@@ -23,40 +33,45 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update(){
-        
-    }
-
+    /// <summary>
+    /// Updates ~50 fps. Used instead of Update to better handle physics.
+    /// </summary>
     private void FixedUpdate(){
-        // If movement input is not 0, try to move
-        if(movementInput != Vector2.zero){
-            bool success = TryMove(movementInput);
-            animator.SetFloat("moveX", movementInput.x);
-            animator.SetFloat("moveY", movementInput.y);
+        if(canMove){
+            // If movement input is not 0, try to move
+            if(movementInput != Vector2.zero){
+                bool success = TryMove(movementInput);
+                animator.SetFloat("moveX", movementInput.x);
+                animator.SetFloat("moveY", movementInput.y);
 
-            if (!success){
-                success = TryMove(new Vector2(movementInput.x, 0));
-            }
-            if (!success){
-                success = TryMove(new Vector2(0, movementInput.y));
-            }
+                if (!success){
+                    success = TryMove(new Vector2(movementInput.x, 0));
+                }
+                if (!success){
+                    success = TryMove(new Vector2(0, movementInput.y));
+                }
 
-            animator.Play("player_walk");
-        } 
-        else{
-            animator.Play("player_idle");
+                animator.SetBool("isMoving", success);
+
+            } 
+            else{
+                animator.SetBool("isMoving", false);
+            }
+            
+            // flip right animations to be left animations when going left
+            if(movementInput.x < 0){
+                spriteRenderer.flipX = true;
+            } else if(movementInput.x > 0){
+                spriteRenderer.flipX = false;
+            } 
         }
-
-        // flip right animations to be left animations when going left
-        if(movementInput.x < 0){
-            spriteRenderer.flipX = true;
-        } else if(movementInput.x > 0){
-            spriteRenderer.flipX = false;
-        } 
-
     }
 
+    /// <summary>
+    /// Helper method to check if player will collide with anything
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     private bool TryMove(Vector2 direction){
         if(direction != Vector2.zero){
         // Check for potential collisions
@@ -76,12 +91,75 @@ public class PlayerController : MonoBehaviour
         // can't move if theres no direction to move in
         return false;
     }
+
+    /// <summary>
+    /// Handles logic for movement
+    /// </summary>
+    /// <param name="movementValue"></param>
     void OnMove(InputValue movementValue){
         movementInput = movementValue.Get<Vector2>();
+        direction = FindPlayerDirection(movementValue.Get<Vector2>());
     }
 
+    /// <summary>
+    /// Handles logic for main attack
+    /// </summary>
     void OnFire(){
-        print("fire pressed");
+        string direction = FindPlayerDirection(movementInput);
+        // will call the attack action on the direction the player was last facing.
+        switch(direction){
+            case "up":
+                animator.SetTrigger("attackTriggerUp");
+                swordAttack.AttackUp();
+                break;
+            case "down":
+                animator.SetTrigger("attackTriggerDown");
+                swordAttack.AttackDown();
+                break;
+            case "left": 
+                animator.SetTrigger("attackTrigger");
+                swordAttack.AttackLeft();
+                break;
+            case "right":
+                animator.SetTrigger("attackTrigger");
+                swordAttack.AttackRight();
+                break;
+
+        }
+    }
+
+    public void EndSwordAttack(){
+        UnlockMovement();
+        swordAttack.StopAttack();
+    }
+
+    /// <summary>
+    /// Used to find the direction the player is facing
+    /// </summary>
+    /// <param name="movementInput"></param>
+    /// <returns></returns>
+    private string FindPlayerDirection(Vector2 movementInput){
+        if (movementInput.x < 0){
+            return "left";
+        } else if (movementInput.x > 0){
+            return "right";
+        }
+
+        if (movementInput.y < 0){
+            return "down";
+        } else if (movementInput.y > 0){
+            return "up";
+        }
+
+        return direction;
+    }
+
+    public void LockMovement(){
+        canMove = false;
+    }
+
+    public void UnlockMovement(){
+        canMove = true;
     }
 
 }
