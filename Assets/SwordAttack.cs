@@ -5,7 +5,7 @@ using UnityEngine;
 public class SwordAttack : MonoBehaviour
 {    
     public BoxCollider2D swordCollider;
-    public float damage = 3;
+    public float damage = 1;
     Vector2 currentPosition;
 
     // Start is called before the first frame update
