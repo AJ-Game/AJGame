@@ -58,8 +58,7 @@ public class Enemy : MonoBehaviour
                 movementFilter, // The settings that determine where a collision can occur on. Such as layers to collide with
                 castCollisions, // List of collisions to store the found collisions into after the Cast is finished
                 speed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
-
-            if (count == 0)
+            if (count == 0 || castCollisions.Exists(x => x.collider.name == "SwordHitbox") && animator.GetBool("isMoving"))
             {
                 rigidbody.MovePosition(rigidbody.position + direction * speed * Time.fixedDeltaTime);
                 return true;
