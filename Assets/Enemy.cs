@@ -14,9 +14,10 @@ public class Enemy : MonoBehaviour
     public float collisionOffset = 0.02f;
     public float speed = 1f;
 
+
     public Vector2 direction = new Vector2(1, 0);
 
-    bool canMove;
+    bool canMove = true;
     public float Health
     {
         set
@@ -44,8 +45,42 @@ public class Enemy : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        bool canMove = TryMove(direction);
-        animator.SetBool("isMoving", canMove);
+        if (canMove)
+        {
+            // If movement input is not 0, try to move
+            if (direction != Vector2.zero)
+            {
+                Vector3 playerPos = GameObject.FindWithTag("Player").transform.position;
+                if (playerPos != Vector3.zero)
+                {
+                    direction = new Vector2(playerPos.x, playerPos.y);
+                }
+                bool success = TryMove(direction);
+                if (!success)
+                {
+                    success = TryMove(new Vector2(1, 0));
+                }
+                if (!success)
+                {
+                    success = TryMove(new Vector2(-1, 0));
+                }
+                if (!success)
+                {
+                    success = TryMove(new Vector2(0, 1));
+                }
+                if (!success)
+                {
+                    success = TryMove(new Vector2(0, -1));
+                }
+
+                animator.SetBool("isMoving", success);
+
+            }
+            else
+            {
+                animator.SetBool("isMoving", false);
+            }
+        }
     }
 
     private bool TryMove(Vector2 direction)
@@ -60,7 +95,8 @@ public class Enemy : MonoBehaviour
                 speed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
             if (count == 0 || castCollisions.Exists(x => x.collider.name == "SwordHitbox") && animator.GetBool("isMoving"))
             {
-                rigidbody.MovePosition(rigidbody.position + direction * speed * Time.fixedDeltaTime);
+                Vector2 newPosition = Vector2.MoveTowards(transform.position, direction, Time.deltaTime * speed);
+                rigidbody.MovePosition(newPosition);
                 return true;
             }
             else
