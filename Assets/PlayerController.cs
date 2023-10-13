@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// movement speed
     /// </summary>
-    public float moveSpeed = 1f;
+    float moveSpeed = 1f;
 
     /// <summary>
     /// "Safety" distance to give spacer in calculate collision
