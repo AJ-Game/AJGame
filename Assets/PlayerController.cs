@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public float health = 2;
+    float health = 2;
 
     /// <summary>
     /// "Safety" distance to give spacer in calculate collision
