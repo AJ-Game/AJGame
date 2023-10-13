@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     float moveSpeed = 1f;
 
-    public float Health{
+    public float Health
+    {
         set {
             health = value;
             if (health <= 0){
@@ -41,7 +42,8 @@ public class PlayerController : MonoBehaviour
     bool canMove = true;
 
     // Start is called before the first frame update
-    void Start(){
+    void Start()
+    {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -50,7 +52,8 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Updates ~50 fps. Used instead of Update to better handle physics.
     /// </summary>
-    private void FixedUpdate(){
+    private void FixedUpdate()
+    {
         if(canMove){
             // If movement input is not 0, try to move
             if(movementInput != Vector2.zero){
@@ -86,7 +89,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="direction"></param>
     /// <returns></returns>
-    private bool TryMove(Vector2 direction){
+    private bool TryMove(Vector2 direction)
+    {
         if(direction != Vector2.zero){
         // Check for potential collisions
             int count = rigidbody.Cast(
@@ -110,7 +114,8 @@ public class PlayerController : MonoBehaviour
     /// Handles logic for movement
     /// </summary>
     /// <param name="movementValue"></param>
-    void OnMove(InputValue movementValue){
+    void OnMove(InputValue movementValue)
+    {
         movementInput = movementValue.Get<Vector2>();
         direction = FindPlayerDirection(movementValue.Get<Vector2>());
     }
@@ -118,7 +123,8 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Handles logic for main attack
     /// </summary>
-    void OnFire(){
+    void OnFire()
+    {
         string direction = FindPlayerDirection(movementInput);
         // will call the attack action on the direction the player was last facing.
         switch(direction){
@@ -142,7 +148,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void EndSwordAttack(){
+    public void EndSwordAttack()
+    {
         UnlockMovement();
         swordAttack.StopAttack();
     }
@@ -152,7 +159,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="movementInput"></param>
     /// <returns></returns>
-    private string FindPlayerDirection(Vector2 movementInput){
+    private string FindPlayerDirection(Vector2 movementInput)
+    {
         if (movementInput.x < 0){
             return "left";
         } else if (movementInput.x > 0){
@@ -168,16 +176,25 @@ public class PlayerController : MonoBehaviour
         return direction;
     }
 
-    private void Death(){
+    private void OnHit(float damage)
+    {
+        Health -= damage;
+        // animator.SetTrigger("hit");
+    }
+
+    private void Death()
+    {
         animator.SetBool("isDead", true);
         canMove = false;
     }
 
-    public void LockMovement(){
+    public void LockMovement()
+    {
         canMove = false;
     }
 
-    public void UnlockMovement(){
+    public void UnlockMovement()
+    {
         canMove = true;
     }
 
