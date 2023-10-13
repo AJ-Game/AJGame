@@ -8,21 +8,23 @@ public class Enemy : MonoBehaviour
 
     Rigidbody2D rigidbody;
 
+    public DetectionZone detectionZone;
     public ContactFilter2D movementFilter;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
     public float collisionOffset = 0.02f;
-    public float speed = 1f;
+    public float speed = 200f;
 
-
-    public Vector2 direction = new Vector2(1, 0);
 
     bool canMove = true;
+
+    bool isAlive = true;
     public float Health
     {
         set
         {
             health = value;
+
             if (health <= 0)
             {
                 Defeated();
@@ -41,75 +43,33 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        animator.SetBool("isAlive", true);
         rigidbody = GetComponent<Rigidbody2D>();
     }
     private void FixedUpdate()
     {
-        if (canMove)
+        if (detectionZone.detectedObjs.Count > 0)
         {
-            // If movement input is not 0, try to move
-            if (direction != Vector2.zero)
-            {
-                Vector3 playerPos = GameObject.FindWithTag("Player").transform.position;
-                if (playerPos != Vector3.zero)
-                {
-                    direction = new Vector2(playerPos.x, playerPos.y);
-                }
-                bool success = TryMove(direction);
-                if (!success)
-                {
-                    success = TryMove(new Vector2(1, 0));
-                }
-                if (!success)
-                {
-                    success = TryMove(new Vector2(-1, 0));
-                }
-                if (!success)
-                {
-                    success = TryMove(new Vector2(0, 1));
-                }
-                if (!success)
-                {
-                    success = TryMove(new Vector2(0, -1));
-                }
-
-                animator.SetBool("isMoving", success);
-
-            }
-            else
-            {
-                animator.SetBool("isMoving", false);
-            }
+            print("detected");
+            animator.SetBool("isMoving", true);
+            //calc direction to target
+            Vector2 direction = (detectionZone.detectedObjs[0].transform.position - transform.position).normalized;
+            //move toward detected obj
+            rigidbody.AddForce(direction * speed * Time.deltaTime);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
         }
     }
-
-    private bool TryMove(Vector2 direction)
+    void OnHit(float damage)
     {
-        if (direction != Vector2.zero)
-        {
-            // Check for potential collisions
-            int count = rigidbody.Cast(
-                direction, // X and Y values between -1 and 1 that repreent the direction from the body to look for collisions
-                movementFilter, // The settings that determine where a collision can occur on. Such as layers to collide with
-                castCollisions, // List of collisions to store the found collisions into after the Cast is finished
-                speed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
-            if (count == 0 || castCollisions.Exists(x => x.collider.name == "SwordHitbox") && animator.GetBool("isMoving"))
-            {
-                Vector2 newPosition = Vector2.MoveTowards(transform.position, direction, Time.deltaTime * speed);
-                rigidbody.MovePosition(newPosition);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        // can't move if theres no direction to move in
-        return false;
+        Health -= damage;
+        animator.SetTrigger("hit");
     }
     public void Defeated()
     {
-        animator.SetTrigger("Defeated");
+        animator.SetBool("isAlive", false);
         print("Defeated");
 
     }

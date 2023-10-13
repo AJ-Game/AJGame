@@ -38,11 +38,11 @@ public class EnemyTest : MovingObject
             //move left or right depending on player position
             yDir = target.position.x > transform.position.x ? 1 : -1;
         }
-        AttemptMove<Player>(xDir, yDir);
+        //AttemptMove<Player>(xDir, yDir);
     }
     protected override void OnCantMove<T>(T component)
     {
-        Player hitPlayer = component as Player;
+        //Player hitPlayer = component as Player;
 
         //this is where we make the player take damage
     }
