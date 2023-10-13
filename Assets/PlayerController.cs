@@ -10,6 +10,20 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     float moveSpeed = 1f;
 
+    public float Health{
+        set {
+            health = value;
+            if (health <= 0){
+                Death();
+            }
+        }
+        get {
+            return health;
+        }
+    }
+
+    float health = 2;
+
     /// <summary>
     /// "Safety" distance to give spacer in calculate collision
     /// </summary>
@@ -152,6 +166,11 @@ public class PlayerController : MonoBehaviour
         }
 
         return direction;
+    }
+
+    private void Death(){
+        animator.SetBool("isDead", true);
+        canMove = false;
     }
 
     public void LockMovement(){
