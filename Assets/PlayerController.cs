@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float health = 2;
+    float health = 3;
 
     /// <summary>
     /// "Safety" distance to give spacer in calculate collision
@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     public ContactFilter2D movementFilter;
     public SwordAttack swordAttack;
 
-
     Vector2 movementInput;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rigidbody;
@@ -40,6 +39,7 @@ public class PlayerController : MonoBehaviour
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     string direction = "down";
     bool canMove = true;
+    bool isAlive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -178,12 +178,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnHit(float damage)
     {
-        Health -= damage;
+        if (isAlive)
+        {
+            Health -= damage;
+            print(Health);
+        }
+
         // animator.SetTrigger("hit");
     }
 
     private void Death()
     {
+        isAlive = false;
         animator.SetBool("isDead", true);
         canMove = false;
     }

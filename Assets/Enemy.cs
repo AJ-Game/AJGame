@@ -32,6 +32,11 @@ public class Enemy : MonoBehaviour
     float damage = 1;
     bool canMove = true;
     bool isAlive = true;
+    bool canAttack = false;
+    Collision2D playerCollision;
+    PlayerController player;
+    float attackCooldownDuration = 2;
+    float attackCooldownTimer = 0;
 
     private void Start()
     {
@@ -54,12 +59,33 @@ public class Enemy : MonoBehaviour
         {
             animator.SetBool("isMoving", false);
         }
+        if (canAttack)
+        {
+            Attack();
+        }
+        if (attackCooldownTimer > 0)
+        {
+            attackCooldownTimer -= .02f;
+        }
     }
 
     void OnHit(float damage)
     {
         Health -= damage;
         animator.SetTrigger("hit");
+    }
+
+    void Attack()
+    {
+        if (attackCooldownTimer <= 0)
+        {
+            player = playerCollision.collider.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.SendMessage("OnHit", damage);
+            }
+            attackCooldownTimer = attackCooldownDuration;
+        }
     }
 
     public void Defeated()
@@ -74,15 +100,8 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        PlayerController player = other.collider.GetComponent<PlayerController>();
-        if (player != null){
-            player.SendMessage("OnHit", damage);
-
-        }
-
-        // if (other.tag == "Player")
-        // {
-        // }
+        canAttack = true;
+        playerCollision = other;
     }
 
 }
