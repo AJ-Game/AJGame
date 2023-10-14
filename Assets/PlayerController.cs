@@ -30,8 +30,9 @@ public class PlayerController : MonoBehaviour
     public float collisionOffset = 0.02f;
     public ContactFilter2D movementFilter;
     public SwordAttack swordAttack;
+    public float attackCooldownDuration = 3;
 
-
+    float attackCooldwon = 0;
     Vector2 movementInput;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rigidbody;
@@ -79,6 +80,10 @@ public class PlayerController : MonoBehaviour
                 spriteRenderer.flipX = false;
             } 
         }
+
+        if (attackCooldwon > 0){
+            attackCooldwon -= .02f;
+        }
     }
 
     /// <summary>
@@ -119,26 +124,29 @@ public class PlayerController : MonoBehaviour
     /// Handles logic for main attack
     /// </summary>
     void OnFire(){
-        string direction = FindPlayerDirection(movementInput);
-        // will call the attack action on the direction the player was last facing.
-        switch(direction){
-            case "up":
-                animator.SetTrigger("attackTriggerUp");
-                swordAttack.AttackUp();
-                break;
-            case "down":
-                animator.SetTrigger("attackTriggerDown");
-                swordAttack.AttackDown();
-                break;
-            case "left": 
-                animator.SetTrigger("attackTrigger");
-                swordAttack.AttackLeft();
-                break;
-            case "right":
-                animator.SetTrigger("attackTrigger");
-                swordAttack.AttackRight();
-                break;
+        if (attackCooldwon <= 0){
+            string direction = FindPlayerDirection(movementInput);
+            // will call the attack action on the direction the player was last facing.
+            switch(direction){
+                case "up":
+                    animator.SetTrigger("attackTriggerUp");
+                    swordAttack.AttackUp();
+                    break;
+                case "down":
+                    animator.SetTrigger("attackTriggerDown");
+                    swordAttack.AttackDown();
+                    break;
+                case "left": 
+                    animator.SetTrigger("attackTrigger");
+                    swordAttack.AttackLeft();
+                    break;
+                case "right":
+                    animator.SetTrigger("attackTrigger");
+                    swordAttack.AttackRight();
+                    break;
 
+            }
+            attackCooldwon = attackCooldownDuration;
         }
     }
 
