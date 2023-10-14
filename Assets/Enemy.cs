@@ -82,8 +82,9 @@ public class Enemy : MonoBehaviour
     bool InRange()
     {
         // print(Vector3.Distance(player.transform.position, transform.position));
-        if (transform.position.y > player.transform.position.y){
-            if((Vector3.Distance(player.transform.position, transform.position)) <= lowerRange &&
+        if (transform.position.y > player.transform.position.y)
+        {
+            if ((Vector3.Distance(player.transform.position, transform.position)) <= lowerRange &&
                 Mathf.Abs(player.transform.position.x - transform.position.x) <= .1)
             {
                 return true;
@@ -91,20 +92,21 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            if((Vector3.Distance(player.transform.position, transform.position)) <= upperRange &&
+            if ((Vector3.Distance(player.transform.position, transform.position)) <= upperRange &&
                 Mathf.Abs(player.transform.position.x - transform.position.x) <= .1)
             {
                 return true;
             }
         }
-        
+
         return false;
     }
 
-    void OnHit(float damage)
+    public void OnHit(float damage, Vector2 knockback)
     {
         Health -= damage;
         animator.SetTrigger("hit");
+        rigidbody.AddForce(knockback);
     }
 
     void Attack()
@@ -112,7 +114,7 @@ public class Enemy : MonoBehaviour
 
         if (attackCooldownTimer <= 0)
         {
-            
+
             if (player != null)
             {
                 player.SendMessage("OnHit", damage);
