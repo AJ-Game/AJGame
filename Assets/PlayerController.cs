@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     float moveSpeed = 1f;
 
-    public float Health{
+    public float Health
+    {
         set {
             health = value;
             if (health <= 0){
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float health = 2;
+    float health = 3;
 
     /// <summary>
     /// "Safety" distance to give spacer in calculate collision
@@ -40,9 +41,11 @@ public class PlayerController : MonoBehaviour
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     string direction = "down";
     bool canMove = true;
+    bool isAlive = true;
 
     // Start is called before the first frame update
-    void Start(){
+    void Start()
+    {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,7 +54,8 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Updates ~50 fps. Used instead of Update to better handle physics.
     /// </summary>
-    private void FixedUpdate(){
+    private void FixedUpdate()
+    {
         if(canMove){
             // If movement input is not 0, try to move
             if(movementInput != Vector2.zero){
@@ -91,7 +95,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="direction"></param>
     /// <returns></returns>
-    private bool TryMove(Vector2 direction){
+    private bool TryMove(Vector2 direction)
+    {
         if(direction != Vector2.zero){
         // Check for potential collisions
             int count = rigidbody.Cast(
@@ -115,7 +120,8 @@ public class PlayerController : MonoBehaviour
     /// Handles logic for movement
     /// </summary>
     /// <param name="movementValue"></param>
-    void OnMove(InputValue movementValue){
+    void OnMove(InputValue movementValue)
+    {
         movementInput = movementValue.Get<Vector2>();
         direction = FindPlayerDirection(movementValue.Get<Vector2>());
     }
@@ -144,13 +150,13 @@ public class PlayerController : MonoBehaviour
                     animator.SetTrigger("attackTrigger");
                     swordAttack.AttackRight();
                     break;
-
             }
             attackCooldwon = attackCooldownDuration;
         }
     }
 
-    public void EndSwordAttack(){
+    public void EndSwordAttack()
+    {
         UnlockMovement();
         swordAttack.StopAttack();
     }
@@ -160,7 +166,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="movementInput"></param>
     /// <returns></returns>
-    private string FindPlayerDirection(Vector2 movementInput){
+    private string FindPlayerDirection(Vector2 movementInput)
+    {
         if (movementInput.x < 0){
             return "left";
         } else if (movementInput.x > 0){
@@ -176,16 +183,31 @@ public class PlayerController : MonoBehaviour
         return direction;
     }
 
-    private void Death(){
+    private void OnHit(float damage)
+    {
+        if (isAlive)
+        {
+            Health -= damage;
+            print(Health);
+        }
+
+        // animator.SetTrigger("hit");
+    }
+
+    private void Death()
+    {
+        isAlive = false;
         animator.SetBool("isDead", true);
         canMove = false;
     }
 
-    public void LockMovement(){
+    public void LockMovement()
+    {
         canMove = false;
     }
 
-    public void UnlockMovement(){
+    public void UnlockMovement()
+    {
         canMove = true;
     }
 

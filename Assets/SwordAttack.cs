@@ -54,14 +54,10 @@ public class SwordAttack : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            Enemy enemy = other.GetComponent<Enemy>();
-            // if (enemy != null)
-            // {
-            //     enemy.Health -= damage;
-            // }
             other.SendMessage("OnHit", damage);
         }
     }
+    
     // Update is called once per frame
     void Update()
     {
