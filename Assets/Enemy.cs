@@ -7,7 +7,6 @@ public class Enemy : MonoBehaviour
     public DetectionZone detectionZone;
     public ContactFilter2D movementFilter;
     public float collisionOffset = 0.02f;
-    public float speed = 200f;
     public float Health
     {
         set
@@ -30,18 +29,29 @@ public class Enemy : MonoBehaviour
     Animator animator;
     Rigidbody2D rigidbody;
     float damage = 1;
+    float speed = 50f;
     bool canMove = true;
     bool isAlive = true;
     bool canAttack = false;
     PlayerController player;
-    float attackCooldownDuration = 2;
+    float attackCooldownDuration = 1;
     float attackCooldownTimer = 0;
+    bool inCollision = false;
+    /// <summary>
+    /// Used when enemy is above player to account for player hitbox being at bottom of player sprite.
+    /// </summary>
+    float lowerRange = .05f;
+    /// <summary>
+    /// Used when enemy is below player to account for player hitbox being at bottom of player sprite.
+    /// </summary>
+    float upperRange = .25f;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
         animator.SetBool("isAlive", true);
         rigidbody = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     private void FixedUpdate()
@@ -58,7 +68,8 @@ public class Enemy : MonoBehaviour
         {
             animator.SetBool("isMoving", false);
         }
-        if (canAttack)
+
+        if (InRange())
         {
             Attack();
         }
@@ -66,6 +77,28 @@ public class Enemy : MonoBehaviour
         {
             attackCooldownTimer -= .02f;
         }
+    }
+
+    bool InRange()
+    {
+        // print(Vector3.Distance(player.transform.position, transform.position));
+        if (transform.position.y > player.transform.position.y){
+            if((Vector3.Distance(player.transform.position, transform.position)) <= lowerRange &&
+                Mathf.Abs(player.transform.position.x - transform.position.x) <= .1)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if((Vector3.Distance(player.transform.position, transform.position)) <= upperRange &&
+                Mathf.Abs(player.transform.position.x - transform.position.x) <= .1)
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     void OnHit(float damage)
@@ -76,6 +109,7 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
+
         if (attackCooldownTimer <= 0)
         {
             
@@ -85,6 +119,7 @@ public class Enemy : MonoBehaviour
             }
             attackCooldownTimer = attackCooldownDuration;
         }
+
     }
 
     public void Defeated()
@@ -99,6 +134,8 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        print("Enemy: " + transform.position);
+        print("player: " + GameObject.FindGameObjectWithTag("Player").transform.position);
         if (other.gameObject.tag == "Player")
         {
             canAttack = true;
@@ -109,6 +146,7 @@ public class Enemy : MonoBehaviour
     private void OnCollisionExit2D(Collision2D other)
     {
         canAttack = false;
+        
     }
 
 }
