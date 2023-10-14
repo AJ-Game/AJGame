@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour
     public float collisionOffset = 0.02f;
     public ContactFilter2D movementFilter;
     public SwordAttack swordAttack;
-    public float attackCooldownDuration = 3;
-
+    
+    float attackCooldownDuration = 1;
     float attackCooldwon = 0;
     Vector2 movementInput;
     SpriteRenderer spriteRenderer;
