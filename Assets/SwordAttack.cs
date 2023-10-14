@@ -7,6 +7,7 @@ public class SwordAttack : MonoBehaviour
     public BoxCollider2D swordCollider;
     public float damage = 1;
     Vector2 currentPosition;
+    float knockbackForce = 100f;
 
     // Start is called before the first frame update
     void Start()
@@ -54,10 +55,17 @@ public class SwordAttack : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            other.SendMessage("OnHit", damage);
+            //calculate direction of knockback
+            Vector3 parentPos = gameObject.GetComponentInParent<Transform>().position;
+
+            Vector2 direction = (Vector2)(other.gameObject.transform.position - parentPos).normalized;
+            Vector2 knockback = direction * knockbackForce;
+            Enemy collidedEnemy = other.GetComponent<Enemy>();
+
+            collidedEnemy.OnHit(damage, knockback);
         }
     }
-    
+
     // Update is called once per frame
     void Update()
     {
