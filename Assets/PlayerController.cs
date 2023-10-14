@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public SwordAttack swordAttack;
     
     float attackCooldownDuration = 1;
-    float attackCooldwon = 0;
+    float attackCooldown = 0;
     Vector2 movementInput;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rigidbody;
@@ -85,8 +85,8 @@ public class PlayerController : MonoBehaviour
             } 
         }
 
-        if (attackCooldwon > 0){
-            attackCooldwon -= .02f;
+        if (attackCooldown > 0){
+            attackCooldown -= .02f;
         }
     }
 
@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
     /// Handles logic for main attack
     /// </summary>
     void OnFire(){
-        if (attackCooldwon <= 0){
+        if (attackCooldown <= 0){
             string direction = FindPlayerDirection(movementInput);
             // will call the attack action on the direction the player was last facing.
             switch(direction){
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
                     swordAttack.AttackRight();
                     break;
             }
-            attackCooldwon = attackCooldownDuration;
+            attackCooldown = attackCooldownDuration;
         }
     }
 
