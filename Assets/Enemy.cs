@@ -131,22 +131,4 @@ public class Enemy : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        print("Enemy: " + transform.position);
-        print("player: " + GameObject.FindGameObjectWithTag("Player").transform.position);
-        if (other.gameObject.tag == "Player")
-        {
-            canAttack = true;
-            player = other.collider.GetComponent<PlayerController>();
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        canAttack = false;
-        
-    }
-
 }
