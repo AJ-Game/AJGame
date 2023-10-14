@@ -33,7 +33,6 @@ public class Enemy : MonoBehaviour
     bool canMove = true;
     bool isAlive = true;
     bool canAttack = false;
-    Collision2D playerCollision;
     PlayerController player;
     float attackCooldownDuration = 2;
     float attackCooldownTimer = 0;
@@ -79,7 +78,7 @@ public class Enemy : MonoBehaviour
     {
         if (attackCooldownTimer <= 0)
         {
-            player = playerCollision.collider.GetComponent<PlayerController>();
+            
             if (player != null)
             {
                 player.SendMessage("OnHit", damage);
@@ -101,7 +100,15 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         canAttack = true;
-        playerCollision = other;
+        if (other.gameObject.tag == "Player")
+        {
+            player = other.collider.GetComponent<PlayerController>();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        canAttack = false;
     }
 
 }
