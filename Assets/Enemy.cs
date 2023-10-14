@@ -99,9 +99,9 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        canAttack = true;
         if (other.gameObject.tag == "Player")
         {
+            canAttack = true;
             player = other.collider.GetComponent<PlayerController>();
         }
     }
