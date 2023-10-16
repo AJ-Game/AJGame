@@ -33425,6 +33425,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7567163432108344697, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 729879988, guid: 23da1c8fb01206740a229ee178fcaa04, type: 3}
+    - target: {fileID: 7567163432108344697, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8463326343625155852, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
       propertyPath: m_BodyType
       value: 0
