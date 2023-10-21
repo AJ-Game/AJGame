@@ -17,3 +17,4 @@ MonoBehaviour:
   <Name>k__BackingField: Bat
   <Description>k__BackingField: Bat you can swing and deal damage
   <ItemImage>k__BackingField: {fileID: -1494357525, guid: dd1b797adab601b4ca659c5325534a67, type: 3}
+  <UISprite>k__BackingField: {fileID: -1591222133, guid: 042dc0b48fdb7014a84834116f5b6761, type: 3}

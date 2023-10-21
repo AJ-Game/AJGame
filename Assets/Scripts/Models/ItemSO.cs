@@ -24,4 +24,7 @@ public class ItemSO : ScriptableObject
     [field: SerializeField]
     public Sprite ItemImage { get; set; }
 
+    [field: SerializeField]
+    public Sprite UISprite { get; set; }
+
 }
