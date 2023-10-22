@@ -1,28 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIEquippedItemPage : MonoBehaviour
 {
-    [field: SerializeField]
-    private UIEquippedItemImage itemPrefab;
-    UIEquippedItemImage createdItemUI;
+    // [SerializeField]
+    // private UIEquippedItemImage itemPrefab;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    [SerializeField]
+    private Image itemImage;
     public void initializeUIEquippedItem()
     {
-        UIEquippedItemImage uiItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
-        createdItemUI = uiItem;
+        itemImage.sprite = Resources.Load<Sprite>("Weapons/Fist");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void updateEquippedUI(Sprite s)
     {
-        
+        // itemPrefab.changeEquippedItemImage(s);
+        itemImage.sprite = s;
     }
+
 }
