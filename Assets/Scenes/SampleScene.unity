@@ -34794,7 +34794,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 194188854676186901, guid: 382fc0f8da9589a4cac26b8f2c0dbc5e, type: 3}
-    - {fileID: 2177387348919012338, guid: 382fc0f8da9589a4cac26b8f2c0dbc5e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 382fc0f8da9589a4cac26b8f2c0dbc5e, type: 3}
 --- !u!1001 &2952505198810682946
 PrefabInstance:
@@ -34819,6 +34818,66 @@ PrefabInstance:
       propertyPath: swordCollider
       value: 
       objectReference: {fileID: 1406910994}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: fullHeart
+      value: 
+      objectReference: {fileID: 21300000, guid: 30a70a5717f1bd94e93d67e244d7e869, type: 3}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: emptyHeart
+      value: 
+      objectReference: {fileID: 21300000, guid: da75f2fc03d75fc41b36dc1e45d5fb35, type: 3}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: numOfHearts
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[0]
+      value: 
+      objectReference: {fileID: 1508326502}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[1]
+      value: 
+      objectReference: {fileID: 1615660127}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[2]
+      value: 
+      objectReference: {fileID: 1297971848}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[3]
+      value: 
+      objectReference: {fileID: 2026572888}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[4]
+      value: 
+      objectReference: {fileID: 494346008}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[5]
+      value: 
+      objectReference: {fileID: 1776847532}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[6]
+      value: 
+      objectReference: {fileID: 188203669}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[7]
+      value: 
+      objectReference: {fileID: 1649471785}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[8]
+      value: 
+      objectReference: {fileID: 1945170788}
+    - target: {fileID: 2744424255199369389, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
+      propertyPath: hearts.Array.data[9]
+      value: 
+      objectReference: {fileID: 56372269}
     - target: {fileID: 3684898735586385309, guid: 29dd0daa60a8f0247ade0a400684755a, type: 3}
       propertyPath: m_RootOrder
       value: 2
