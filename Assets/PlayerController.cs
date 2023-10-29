@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public int health = 3;
+    int health = 3;
+
 
     /// <summary>
     /// "Safety" distance to give spacer in calculate collision
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
     string direction = "down";
     bool canMove = true;
     bool isAlive = true;
-
+    int damageIndicatorDuration = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -88,6 +89,16 @@ public class PlayerController : MonoBehaviour
         if (attackCooldown > 0){
             attackCooldown -= .02f;
         }
+
+        // set player sprite color back to default after a fixed amount of time in case we took damage 
+        if (damageIndicatorDuration == 0)
+        {
+            spriteRenderer.color = Color.white;
+        }
+        if (damageIndicatorDuration > 0){
+            damageIndicatorDuration--;
+        }
+
     }
 
     /// <summary>
@@ -188,10 +199,11 @@ public class PlayerController : MonoBehaviour
         if (isAlive)
         {
             Health -= damage;
-            print(Health);
+            // highlights the player red when taking damage for damageIndicatorDuration amount of updates.
+            spriteRenderer.color = Color.red;
+            damageIndicatorDuration = 5;
         }
 
-        // animator.SetTrigger("hit");
     }
 
     private void Death()
