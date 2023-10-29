@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    int health = 3;
+    public int health = 3;
 
 
     /// <summary>

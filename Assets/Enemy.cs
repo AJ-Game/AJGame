@@ -81,11 +81,11 @@ public class Enemy : MonoBehaviour
 
     bool InRange()
     {
-        // print(Vector3.Distance(player.transform.position, transform.position));
+        print(Vector3.Distance(player.transform.position, transform.position));
         if (transform.position.y > player.transform.position.y)
         {
             if ((Vector3.Distance(player.transform.position, transform.position)) <= lowerRange &&
-                Mathf.Abs(player.transform.position.x - transform.position.x) <= .1)
+                Mathf.Abs(player.transform.position.x - transform.position.x) <= .15)
             {
                 return true;
             }
@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
         else
         {
             if ((Vector3.Distance(player.transform.position, transform.position)) <= upperRange &&
-                Mathf.Abs(player.transform.position.x - transform.position.x) <= .1)
+                Mathf.Abs(player.transform.position.x - transform.position.x) <= .15)
             {
                 return true;
             }
