@@ -12,18 +12,21 @@ public class PlayerController : MonoBehaviour
 
     public int Health
     {
-        set {
+        set
+        {
             health = value;
-            if (health <= 0){
+            if (health <= 0)
+            {
                 Death();
             }
         }
-        get {
+        get
+        {
             return health;
         }
     }
 
-    int health = 3;
+    public int health = 3;
 
 
     /// <summary>
@@ -32,7 +35,7 @@ public class PlayerController : MonoBehaviour
     public float collisionOffset = 0.02f;
     public ContactFilter2D movementFilter;
     public SwordAttack swordAttack;
-    
+
     float attackCooldownDuration = 1;
     float attackCooldown = 0;
     Vector2 movementInput;
@@ -57,36 +60,45 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        if(canMove){
+        if (canMove)
+        {
             // If movement input is not 0, try to move
-            if(movementInput != Vector2.zero){
+            if (movementInput != Vector2.zero)
+            {
                 bool success = TryMove(movementInput);
                 animator.SetFloat("moveX", movementInput.x);
                 animator.SetFloat("moveY", movementInput.y);
 
-                if (!success){
+                if (!success)
+                {
                     success = TryMove(new Vector2(movementInput.x, 0));
                 }
-                if (!success){
+                if (!success)
+                {
                     success = TryMove(new Vector2(0, movementInput.y));
                 }
 
                 animator.SetBool("isMoving", success);
 
-            } 
-            else{
+            }
+            else
+            {
                 animator.SetBool("isMoving", false);
             }
-            
+
             // flip right animations to be left animations when going left
-            if(movementInput.x < 0){
+            if (movementInput.x < 0)
+            {
                 spriteRenderer.flipX = true;
-            } else if(movementInput.x > 0){
+            }
+            else if (movementInput.x > 0)
+            {
                 spriteRenderer.flipX = false;
-            } 
+            }
         }
 
-        if (attackCooldown > 0){
+        if (attackCooldown > 0)
+        {
             attackCooldown -= .02f;
         }
 
@@ -95,7 +107,8 @@ public class PlayerController : MonoBehaviour
         {
             spriteRenderer.color = Color.white;
         }
-        if (damageIndicatorDuration > 0){
+        if (damageIndicatorDuration > 0)
+        {
             damageIndicatorDuration--;
         }
 
@@ -108,18 +121,22 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private bool TryMove(Vector2 direction)
     {
-        if(direction != Vector2.zero){
-        // Check for potential collisions
+        if (direction != Vector2.zero)
+        {
+            // Check for potential collisions
             int count = rigidbody.Cast(
                 direction, // X and Y values between -1 and 1 that repreent the direction from the body to look for collisions
                 movementFilter, // The settings that determine where a collision can occur on. Such as layers to collide with
                 castCollisions, // List of collisions to store the found collisions into after the Cast is finished
                 moveSpeed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
-            
-            if (count == 0){
+
+            if (count == 0)
+            {
                 rigidbody.MovePosition(rigidbody.position + direction * moveSpeed * Time.fixedDeltaTime);
                 return true;
-            } else{
+            }
+            else
+            {
                 return false;
             }
         }
@@ -140,11 +157,14 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Handles logic for main attack
     /// </summary>
-    void OnFire(){
-        if (attackCooldown <= 0){
+    void OnFire()
+    {
+        if (attackCooldown <= 0)
+        {
             string direction = FindPlayerDirection(movementInput);
             // will call the attack action on the direction the player was last facing.
-            switch(direction){
+            switch (direction)
+            {
                 case "up":
                     animator.SetTrigger("attackTriggerUp");
                     swordAttack.AttackUp();
@@ -153,7 +173,7 @@ public class PlayerController : MonoBehaviour
                     animator.SetTrigger("attackTriggerDown");
                     swordAttack.AttackDown();
                     break;
-                case "left": 
+                case "left":
                     animator.SetTrigger("attackTrigger");
                     swordAttack.AttackLeft();
                     break;
@@ -179,15 +199,21 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private string FindPlayerDirection(Vector2 movementInput)
     {
-        if (movementInput.x < 0){
+        if (movementInput.x < 0)
+        {
             return "left";
-        } else if (movementInput.x > 0){
+        }
+        else if (movementInput.x > 0)
+        {
             return "right";
         }
 
-        if (movementInput.y < 0){
+        if (movementInput.y < 0)
+        {
             return "down";
-        } else if (movementInput.y > 0){
+        }
+        else if (movementInput.y > 0)
+        {
             return "up";
         }
 
