@@ -5,13 +5,16 @@ using UnityEngine;
 public class DamagingTerrain : MonoBehaviour
 {
 
-    public float damage = 1;
+    public int damage = 1;
 
-    private void OnTriggerEnter2D(Collider2D other){
-        if(other.tag == "Player"){
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "Player")
+        {
             PlayerController player = other.GetComponent<PlayerController>();
-            if(player != null){
-                player.Health -= damage;
+            if (player != null)
+            {
+                player.SendMessage("OnHit", damage);
             }
         }
     }
