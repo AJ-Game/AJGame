@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3916364766509694cb6d31612ec982cf, type: 3}
-  m_Name: Bat
+  m_Name: Fist
   m_EditorClassIdentifier: 
   <IsStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
-  <Name>k__BackingField: Bat
-  <Description>k__BackingField: Bat you can swing and deal damage
-  <ItemImage>k__BackingField: {fileID: -1494357525, guid: dd1b797adab601b4ca659c5325534a67, type: 3}
-  <UISprite>k__BackingField: {fileID: -1591222133, guid: 042dc0b48fdb7014a84834116f5b6761, type: 3}
+  <Name>k__BackingField: 
+  <Description>k__BackingField: 
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: c174dc6d144c9b44ca24e4d4a9de2312, type: 3}
+  <UISprite>k__BackingField: {fileID: 21300000, guid: c174dc6d144c9b44ca24e4d4a9de2312, type: 3}

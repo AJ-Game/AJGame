@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     float moveSpeed = 1f;
 
-    public float Health
+    public int Health
     {
         set {
             health = value;
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float health = 3;
+    public int health = 3;
 
     /// <summary>
     /// "Safety" distance to give spacer in calculate collision
@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
         return direction;
     }
 
-    private void OnHit(float damage)
+    private void OnHit(int damage)
     {
         if (isAlive)
         {
