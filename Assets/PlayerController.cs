@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// movement speed
     /// </summary>
-    float moveSpeed = 1f;
+    float moveSpeed = 2f;
 
     public int Health
     {
